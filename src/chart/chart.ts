@@ -130,4 +130,46 @@ export class Chart extends ChartBootstrap {
 	public createPane(): PaneComponent {
 		return this.paneManager.createPane();
 	}
+
+	/**
+	 * Register a custom x-axis labels provider for non-time-based charts (e.g., PDS Pulse)
+	 * @param provider - An object with getUnorderedLabels() method
+	 */
+	public registerXAxisLabelsProvider(provider: { getUnorderedLabels: () => Array<{ text: string; x: number; color: string }> }) {
+		this.xAxisComponent.registerXAxisLabelsProvider(provider);
+	}
+
+	/**
+	 * Set x-axis visibility
+	 * @param visible - Whether x-axis should be visible
+	 */
+	public setXAxisVisible(visible: boolean) {
+		this.xAxisComponent.setVisible(visible);
+	}
+
+	/**
+	 * Get the x-axis labels generator for custom label generation
+	 */
+	public getXAxisLabelsGenerator() {
+		return this.xAxisComponent.xAxisLabelsGenerator;
+	}
+
+	/**
+	 * Register a custom data series drawer for custom chart types
+	 * @param type - Chart type identifier
+	 * @param drawer - Drawer implementation
+	 */
+	public registerDataSeriesDrawer(type: string, drawer: any) {
+		this.chartComponent.registerDataSeriesTypeDrawer(type as any, drawer);
+	}
+
+	/**
+	 * Enable or disable the default time labels on x-axis.
+	 * When disabled, only custom labels from registerXAxisLabelsProvider will be shown.
+	 * Useful for non-time-based charts like PDS Pulse.
+	 * @param enabled - Whether default time labels should be shown
+	 */
+	public setTimeLabelsEnabled(enabled: boolean) {
+		this.xAxisComponent.setTimeLabelsEnabled(enabled);
+	}
 }

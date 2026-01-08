@@ -222,5 +222,23 @@ export class XAxisComponent extends ChartBaseElement {
 	 * By default it calls basic scale on XAxis
 	 */
 	public setDblTapCallback = (cb: () => void) => this.xAxisScaleHandler.setDblTapCallback(cb);
+
+	/**
+	 * Enable or disable the default time labels drawer.
+	 * When disabled, only custom labels from registerXAxisLabelsProvider will be shown.
+	 * @param enabled - Whether time labels should be enabled
+	 */
+	public setTimeLabelsEnabled(enabled: boolean) {
+		this.xAxisDrawer.setEnabled(enabled);
+		this.eventBus.fireDraw();
+	}
+
+	/**
+	 * Clear all labels from the time labels generator
+	 */
+	public clearTimeLabels() {
+		this.xAxisLabelsGenerator.labels.length = 0;
+		this.eventBus.fireDraw();
+	}
 	//#endregion
 }

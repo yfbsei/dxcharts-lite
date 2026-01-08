@@ -16,6 +16,8 @@ import { calculateTextWidth } from '../../utils/canvas/canvas-font-measure-tool.
  * This Drawer draws regular time labels for X Axis.
  */
 export class XAxisTimeLabelsDrawer implements Drawer {
+	private enabled: boolean = true;
+
 	constructor(
 		private config: FullChartConfig,
 		private canvasModel: CanvasModel,
@@ -23,7 +25,15 @@ export class XAxisTimeLabelsDrawer implements Drawer {
 		private canvasBoundsContainer: CanvasBoundsContainer,
 		private labelsProvider: () => NumericAxisLabel[],
 		private drawPredicate: () => boolean = () => true,
-	) {}
+	) { }
+
+	/**
+	 * Enable or disable this drawer
+	 * @param enabled - Whether this drawer should draw
+	 */
+	public setEnabled(enabled: boolean) {
+		this.enabled = enabled;
+	}
 
 	/**
 	 * Draws the X-axis labels on the canvas.
@@ -31,6 +41,7 @@ export class XAxisTimeLabelsDrawer implements Drawer {
 	 * @returns {void}
 	 */
 	draw(): void {
+		if (!this.enabled) return;
 		if (this.drawPredicate()) {
 			const ctx = this.canvasModel.ctx;
 			const xAxisColors = this.config.colors.xAxis;
