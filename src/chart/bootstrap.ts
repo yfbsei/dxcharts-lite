@@ -61,6 +61,7 @@ import { DeepPartial } from './utils/object.utils';
 import { HitTestComponent } from './components/hit-test/hit-test.component';
 import { isSafari } from './utils/device/touchpad.utils';
 import { SafariCanvasAnimation } from './utils/performance/safari/components/animations/safari-canvas-animation';
+import { ChartScriptComponent } from './components/chart/chartscript.component';
 
 export type FitType = 'studies' | 'orders' | 'positions';
 
@@ -158,6 +159,7 @@ export default class ChartBootstrap {
 	public chartBaseModel: ChartBaseModel<'candle'>;
 
 	public canvasAnimation: CanvasAnimation;
+	public chartScriptComponent: ChartScriptComponent;
 	constructor(element: HTMLElement, userConfig: PartialChartConfig = {}) {
 		this.parentElement = element;
 		// eslint-disable-next-line no-restricted-syntax
@@ -388,6 +390,17 @@ export default class ChartBootstrap {
 		this.chartModel = chartModel;
 		this.canvasBoundsContainer.setMainCandleSeries(this.chartModel.mainCandleSeries);
 		hitTestCanvasModel.addSubscriber(paneManager.hitTestController);
+
+		// ChartScriptJS native component
+		this.chartScriptComponent = new ChartScriptComponent(
+			this.dynamicObjectsCanvasModel,
+			drawingManager,
+			scaleModel,
+			this.chartModel,
+			eventBus,
+			() => canvasBoundsContainer.getBounds(chartPaneId),
+		);
+		this.chartComponents.push(this.chartScriptComponent);
 		// X-axis component
 		this.xAxisComponent = new XAxisComponent(
 			eventBus,
