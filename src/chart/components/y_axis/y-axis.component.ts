@@ -201,7 +201,11 @@ export class YAxisComponent extends ChartBaseElement {
 	 * If there is no color mapping for the given data series type, it returns the default color resolver function.
 	 */
 	public getLabelsColorResolver(candlesType: DataSeriesType) {
-		return this.labelsColorByChartTypeMap[candlesType] ?? resolveDefaultColorForLabel;
+		return (
+			this.labelsColorByChartTypeMap[candlesType] ??
+			this.labelsColorByChartTypeMap['candle'] ??
+			resolveDefaultColorForLabel
+		);
 	}
 
 	//#region public methods
