@@ -17,6 +17,7 @@ import { CandleDrawer } from '../../drawers/chart-type-drawers/candle.drawer';
 import { HistogramDrawer as MainChartHistogramDrawer } from '../../drawers/chart-type-drawers/histogram.drawer';
 import { LineDrawer } from '../../drawers/chart-type-drawers/line.drawer';
 import { ScatterPlotDrawer } from '../../drawers/chart-type-drawers/scatter-plot.drawer';
+import { PointRangeDrawer } from '../../drawers/chart-type-drawers/point-range.drawer';
 import { CandleSeriesWrapper } from '../../drawers/data-series-drawers/candle-series-wrapper';
 import { ColorCandleDrawer } from '../../drawers/data-series-drawers/color-candle.drawer';
 import { DifferenceCloudDrawer } from '../../drawers/data-series-drawers/difference-cloud.drawer';
@@ -200,6 +201,7 @@ export class ChartComponent extends ChartBaseElement {
 		this.registerCandlesTransformer('trend', trendCandleTransformer);
 		this.registerCandlesTransformer('hollow', hollowCandleTransformer);
 		this.registerCandlesTransformer('line', lineCandleTransformer);
+		this.registerCandlesTransformer('pointRange', defaultCandleTransformer);
 	}
 
 	get barTypeValues(): Array<BarType> {
@@ -259,6 +261,10 @@ export class ChartComponent extends ChartBaseElement {
 		this.registerDataSeriesTypeDrawer(
 			'histogram',
 			new MainChartHistogramDrawer(this.config.components.chart.histogram),
+		);
+		this.registerDataSeriesTypeDrawer(
+			'pointRange',
+			new PointRangeDrawer(this.config, this.config.colors.pointRange),
 		);
 
 		const chartPaneId = CanvasElement.PANE_UUID(CHART_UUID);

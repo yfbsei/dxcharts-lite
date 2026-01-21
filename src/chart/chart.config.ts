@@ -38,11 +38,12 @@ export interface BarTypes {
 	histogram: unknown;
 	baseline: unknown;
 	trend: unknown;
+	pointRange: unknown;
 }
 
 export type BarType = keyof BarTypes;
 
-export const LastBarRedrawableBarTypes: BarType[] = ['candle', 'bar', 'scatterPlot', 'trend', 'hollow', 'histogram'];
+export const LastBarRedrawableBarTypes: BarType[] = ['candle', 'bar', 'scatterPlot', 'trend', 'hollow', 'histogram', 'pointRange'];
 
 export const availableBarTypes: BarType[] = [
 	'candle',
@@ -54,6 +55,7 @@ export const availableBarTypes: BarType[] = [
 	'hollow',
 	'histogram',
 	'baseline',
+	'pointRange',
 ];
 
 export const isLastBarRedrawAvailable = (type: BarType): boolean =>
@@ -121,6 +123,9 @@ export const getDefaultConfig = (): FullChartConfig => ({
 				y: true,
 			},
 			sortCandles: defaultSortCandles,
+			pointRange: {
+				interval: 10,
+			},
 		},
 		yAxis: {
 			type: 'regular',
@@ -379,6 +384,7 @@ export const getDefaultConfig = (): FullChartConfig => ({
 			gridColor: 'rgba(37,37,36,1)',
 		},
 		scatterPlot: { mainColor: 'rgba(255,255,255,1)' },
+		pointRange: { mainColor: 'rgba(77,153,83,1)' },
 		areaTheme: {
 			lineColor: 'rgba(127,120,214,1)',
 			startColor: 'rgba(169,38,251,1)',
@@ -772,6 +778,7 @@ export interface FullChartColors {
 	areaTheme: AreaStyleTheme;
 	chartAreaTheme: ChartAreaTheme;
 	scatterPlot: ScatterPlotStyle;
+	pointRange: ScatterPlotStyle;
 	baseLineTheme: BaselineStyleTheme;
 	histogram: HistogramColors;
 	highlights: Record<HighlightType, HighlightsColors>;
@@ -1026,6 +1033,10 @@ export interface ChartConfigComponentsChart {
 	};
 	// optional because backward compability
 	sortCandles?: (candles: Candle[]) => Candle[];
+	/**
+	 * Point range chart configuration.
+	 */
+	pointRange: ChartConfigComponentsPointRange;
 }
 
 export interface ChartConfigComponentsEvents {
@@ -1288,6 +1299,13 @@ export interface ChartConfigComponentsVolumes {
 
 export interface ChartConfigComponentsHistogram {
 	barCapSize: number;
+}
+
+export interface ChartConfigComponentsPointRange {
+	/**
+	 * The price interval between dots (e.g., 1, 5, 10, or custom value).
+	 */
+	interval: number;
 }
 
 export interface GridComponentConfig {
